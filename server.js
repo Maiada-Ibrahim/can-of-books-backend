@@ -50,6 +50,7 @@ function testHandler(req, res) {
     bookModel.find({email:emailfromreq},function(err,ownerData){
         if(err) {
             console.log('error in getting the data')
+            
         } else {
             console.log(ownerData);
             res.send(ownerData)
