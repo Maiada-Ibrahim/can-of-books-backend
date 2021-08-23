@@ -18,14 +18,10 @@ server.get('/test', testHandler);
 function testHandler(req, res) {
     res.send('all good')
 }
-
-server.get('/', testHandler);
-function testHandler(req, res) {
+server.get('/', homeHandler);
+function homeHandler(req, res) {
     res.send('home')
 }
-server.listen(PORT, () => {
-    console.log(`listening on PORT ${PORT}`)
-})
 //-------------------------------------------------------------------------------------------------------------
 mongoose.connect('mongodb://localhost:27017/can-book', { useNewUrlParser: true, useUnifiedTopology: true });
 //Schema
@@ -50,6 +46,7 @@ function seedDataCollection() {
 // seedDataCollection()
 
 //----------------------------------------------------------------------------------
+// http://localhost:3001/book?email=maiada.ibrahim.27@gmail.com
 server.get('/book', testHandler);
 function testHandler(req, res) {
     let emailfromreq = req.query.email;
@@ -57,10 +54,10 @@ function testHandler(req, res) {
     // console.log('im here in /book')
     bookModel.find({email:emailfromreq},function(err,ownerData){
         if(err) {
-            console.log('error in getting the data')
+            // console.log('error in getting the data')
             
         } else {
-            console.log(ownerData);
+            // console.log(ownerData);
             res.send(ownerData)
         }
     })
