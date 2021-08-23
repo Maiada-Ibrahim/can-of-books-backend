@@ -18,6 +18,13 @@ server.get('/test', testHandler);
 function testHandler(req, res) {
     res.send('all good')
 }
+server.listen(PORT, () => {
+    console.log(`listening on PORT ${PORT}`)
+})
+server.get('/', testHandler);
+function testHandler(req, res) {
+    res.send('home')
+}
 //-------------------------------------------------------------------------------------------------------------
 mongoose.connect('mongodb://localhost:27017/can-book', { useNewUrlParser: true, useUnifiedTopology: true });
 //Schema
