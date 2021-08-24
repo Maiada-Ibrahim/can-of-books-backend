@@ -7,11 +7,14 @@ require('dotenv').config();
 // const axios = require('axios');
 const mongoose = require('mongoose');
 const mongodb = require('./module/mongodb');
+const bookModel = require('./module/mongodb');
+// Middleware (to parse the request body)
 
 
 const PORT = process.env.PORT;
 const server = express();
 server.use(cors());
+server.use(express.json());
 
 
 server.get('/test', testHandler);
@@ -34,7 +37,7 @@ function testHandler(req, res) {
     // console.log('im here in /book')
     mongodb.find({email:emailfromreq},function(err,ownerData){
         if(err) {
-            
+
             console.log('error in getting the data')
             
         } else {
@@ -46,8 +49,42 @@ function testHandler(req, res) {
 }
 
 
+//-------------------------------------------------------------------------lab13
+server.post('/addbookfromform', addbook);
+async function addbook(req, res) {
+    console.log(req.body);
+  
+    // let owner = req.body.ownerName;
+    // let name = req.body.catName;
+    // let breed = req.body.catBreed;
+    let { title, description, email } = req.body;
+    // const newCat = new kittenModel({
+    //     ownerName: ownerName,
+    //     catName: catName,
+    //     catBreed: catBreed
+    // })
+
+    // await newCat.save();
+
+    await mongodb.create({title, description,  email})
+    // // await kittenModel.create(req.body)
 
 
+    mongodb.find({ email }, function (err, ownerData) {
+        if (err) {
+            console.log('error in getting the data')
+        } else {
+            console.log(ownerData);
+            res.send(ownerData)
+        }
+    })
+
+    res.send(ownerData)
+
+}
+
+
+//---------------------------------------------------------------------------
 server.listen(PORT, () => {
     console.log(`listening on PORT ${PORT}`)
 })
