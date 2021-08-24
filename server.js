@@ -34,6 +34,7 @@ function testHandler(req, res) {
     // console.log('im here in /book')
     mongodb.find({email:emailfromreq},function(err,ownerData){
         if(err) {
+            
             console.log('error in getting the data')
             
         } else {
