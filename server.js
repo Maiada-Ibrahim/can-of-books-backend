@@ -115,34 +115,28 @@ function deleteCatHandler(req,res) {
 }
 //---------------------------------------------------------------------------
 server.put('/updatebook/:bookid',updatebooktHandler);
-function updatebooktHandler(req,res) {
-    // console.log(req.query.catID)
-    console.log('inside the updatebook')
-    // console.log(req.params)
-    console.log(req.params.bookid);
-    let user= req.query.user;
-    // console.log(user)
+function updatebooktHandler (req,res) {
+    let {title,description,email} = req.body;
     let bookid = req.params.bookid;
-    // mongodb.remove({_id:bookid},(error,deletebookData)=>{
-    //     if(error) {
-    //         console.log('error in deleteing the data')
-    //     } else {
-    //         console.log('data deleted', deletebookData)
-
-    //         mongodb.find({email:user }, function (err, ownerData) {
-    //             console.log('find the user')
-    //             if (err) {
-    //                 console.log('error in getting user the data')
-    //             } else {
-    //                 console.log(ownerData);
-    //                 res.send(ownerData)
-    //             }
-    //         })
-    //     }
-    // })
-
-
-
+    console.log(req.body)
+    mongodb.findOne({_id:bookid},(error,bookInfo) =>{
+        bookInfo.title = title;
+        bookInfo.description= description;
+        bookInfo.email= email;
+        bookInfo.save()
+        .then(()=>{
+            mongodb.find({ email:email }, function (err, ownerData) {
+                if (err) {
+                    console.log('error in getting the data')
+                } else {
+                    console.log('ownerData');
+                    res.send(ownerData)
+                }
+            })
+        }).catch(error=>{
+            console.log('error in saving ')
+        })
+    })
 }
 //----------------------------------------------------------------------------
 server.listen(PORT, () => {
