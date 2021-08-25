@@ -114,6 +114,37 @@ function deleteCatHandler(req,res) {
 
 }
 //---------------------------------------------------------------------------
+server.put('/updatebook/:bookid',updatebooktHandler);
+function updatebooktHandler(req,res) {
+    // console.log(req.query.catID)
+    console.log('inside the updatebook')
+    // console.log(req.params)
+    console.log(req.params.bookid);
+    let user= req.query.user;
+    // console.log(user)
+    let bookid = req.params.bookid;
+    // mongodb.remove({_id:bookid},(error,deletebookData)=>{
+    //     if(error) {
+    //         console.log('error in deleteing the data')
+    //     } else {
+    //         console.log('data deleted', deletebookData)
+
+    //         mongodb.find({email:user }, function (err, ownerData) {
+    //             console.log('find the user')
+    //             if (err) {
+    //                 console.log('error in getting user the data')
+    //             } else {
+    //                 console.log(ownerData);
+    //                 res.send(ownerData)
+    //             }
+    //         })
+    //     }
+    // })
+
+
+
+}
+//----------------------------------------------------------------------------
 server.listen(PORT, () => {
     console.log(`listening on PORT ${PORT}`)
 })
