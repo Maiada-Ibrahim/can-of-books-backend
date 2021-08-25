@@ -30,7 +30,7 @@ mongoose.connect('mongodb://localhost:27017/can-book', { useNewUrlParser: true, 
 
 // http://localhost:3001/book?email=maiada.ibrahim.27@gmail.com
 server.get('/book', testHandler);
-console.log( mongodb)
+// console.log( mongodb)
 function testHandler(req, res) {
     let emailfromreq = req.query.email;
     // console.log(emailfromreq)
@@ -52,7 +52,7 @@ function testHandler(req, res) {
 //-------------------------------------------------------------------------lab13
 server.post('/addbookfromform', addbook);
 async function addbook(req, res) {
-    console.log(req.body);
+    // console.log(req.body);
   
     // let owner = req.body.ownerName;
     // let name = req.body.catName;
@@ -68,22 +68,51 @@ async function addbook(req, res) {
 
     await mongodb.create({title, description,  email})
     // // await kittenModel.create(req.body)
-
+       console.log('aftercreate')
 
     mongodb.find({ email }, function (err, ownerData) {
         if (err) {
             console.log('error in getting the data')
         } else {
-            console.log(ownerData);
+            // console.log(ownerData);
             res.send(ownerData)
         }
     })
 
-    res.send(ownerData)
+ 
 
 }
+//----------------------------------------------------------------------------
+server.delete('/removebook/:bookid',deleteCatHandler);
+function deleteCatHandler(req,res) {
+    // console.log(req.query.catID)
+    console.log('inside the deleteCatHandler')
+    console.log(req.params)
+    console.log(req.params.bookid);
+    let user= req.query.user;
+    console.log(user)
+    let bookid = req.params.bookid;
+    mongodb.remove({_id:bookid},(error,deletebookData)=>{
+        if(error) {
+            console.log('error in deleteing the data')
+        } else {
+            console.log('data deleted', deletebookData)
+
+            mongodb.find({email:user }, function (err, ownerData) {
+                console.log('find the user')
+                if (err) {
+                    console.log('error in getting user the data')
+                } else {
+                    console.log(ownerData);
+                    res.send(ownerData)
+                }
+            })
+        }
+    })
 
 
+
+}
 //---------------------------------------------------------------------------
 server.listen(PORT, () => {
     console.log(`listening on PORT ${PORT}`)
