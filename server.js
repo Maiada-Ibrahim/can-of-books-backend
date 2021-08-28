@@ -23,7 +23,7 @@ function testHandler(req, res) {
 }
 server.get('/', homeHandler);
 function homeHandler(req, res) {
-    res.send('home')
+    res.send('home you')
 }
 //-------------------------------------------------------------------------------------------------------------
 // mongoose.connect('mongodb://localhost:27017/can-book', { useNewUrlParser: true, useUnifiedTopology: true });
